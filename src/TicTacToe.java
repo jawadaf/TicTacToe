@@ -48,10 +48,10 @@ public class TicTacToe {
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
                 if (grid[r][c] == ' ') {  // If cell is empty, try move
-                    grid[r][c] = 'O';
-                    int moveScore = minimax(false);  // Call Minimax
-                    grid[r][c] = ' ';  // Undo move
-                    if (moveScore > bestMoveScore) {  // Pick the best move
+                    grid[r][c] = 'O'; // AI tester hvert tomt felt og placerer 'O' der midlertidigt.
+                    int moveScore = minimax(false);  // Call Minimax  hvor false betyder, at det nu er spillerens tur.
+                    grid[r][c] = ' ';  // Undo move efter at have fået en score for trækket
+                    if (moveScore > bestMoveScore) {  // AI vælger det træk med den højeste score og udfører det.
                         bestMoveScore = moveScore;
                         bestRow = r;
                         bestCol = c;
@@ -68,11 +68,13 @@ public class TicTacToe {
         if (isWinner('O')) return 1;   // AI wins
         if (isDraw()) return 0;        // Tie
 
+        // AI skal maksimere, spilleren skal minimere
+        // AI forsøger at maksimere sin score (starter lavt, så den kan finde den bedste mulighed).
         int bestMoveScore = isAITurn ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
                 if (grid[r][c] == ' ') {  // If cell is empty, try move
-                    grid[r][c] = isAITurn ? 'O' : 'X';
+                    grid[r][c] = isAITurn ? 'O' : 'X'; // Simulér trækket
                     int moveScore = minimax(!isAITurn);
                     grid[r][c] = ' ';  // Undo move
                     bestMoveScore = isAITurn ? Math.max(moveScore, bestMoveScore) : Math.min(moveScore, bestMoveScore);
